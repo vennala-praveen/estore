@@ -1,11 +1,7 @@
 const express = require('express');
-const productCategories = express.Router();
-// const app = express();
+const product = express.Router();
 const mysql = require('mysql');
 
-// app.use(cors());
-
-// app.use("/",product)
 
 const pool = mysql.createPool({
     host : "localhost",
@@ -16,14 +12,10 @@ const pool = mysql.createPool({
     multipleStatements : true
 })
 
-productCategories.get("/",(req,res)=>{
+product.get("/productCategories",(req,res)=>{
 
     let categorydata;
 
-    pool.getConnection((err,connection)=>{
-        if(err){
-            res.status(500).send(err);
-        }else{
             pool.query("Select * from categories",(error,categories)=>{
                 if(error){
                     categorydata = error;
@@ -33,10 +25,20 @@ productCategories.get("/",(req,res)=>{
                     res.status(200).send(categorydata);
                 }
             })
+    })
 
+product.get("/getProducts",(req,res)=>{
+    let productData;
+
+    pool.query("select * from products", (err,rows)=>{
+        if(err){
+            res.status(500).send(err);
+        }else{
+            productData = rows;
+            res.status(200).send(productData);
         }
-        // res.status(200).send("Connection Established.");
     })
 })
 
-module.exports = productCategories;
+
+module.exports = product;
