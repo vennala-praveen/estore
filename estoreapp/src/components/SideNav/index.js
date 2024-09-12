@@ -1,17 +1,45 @@
 import { useDispatch, useSelector } from 'react-redux';
 import accordionSlice from '../../Redux/Accordion/accordionCatSlice';
 import './_side-nav.scss';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getCategories } from '../../Redux/Category/actions';
+import { filterByPrice,filterProducts } from '../../Redux/Products/productSlice';
 
 const SideNav = ()=>{
 
     const accordionData = useSelector(state=>state.categoryReducer.categories);
+    const fetchedProductData = useSelector(state=>state.pr);
+    const [products, setProducts] = useState();
+    const [minPriceLimit, setMinPriceLimit] = useState(10);
+    const [maxPriceLimit, setMaxPriceLimit] = useState(130);
     const dispatch = useDispatch();
 
     useEffect(()=>{
         dispatch(getCategories());
     },[dispatch]);
+
+    useEffect(()=>{
+        setProducts(fetchedProductData.products);
+    },[fetchedProductData.products, fetchedProductData.status]);
+
+
+    const filterData = (selectedCategory)=>{
+        const payload = {selectedCategory,products};
+        dispatch(filterProducts(payload));
+    }
+
+    const serPriceLimit = (e,stateFlag)=>{
+        if(stateFlag==="max"){
+            setMaxPriceLimit(e.target.value);
+        }else if(stateFlag==="min"){
+            setMinPriceLimit(e.target.value);
+        }
+    }
+
+    const applyPriceFilter = ()=>{
+        const payload = {products,minPriceLimit,maxPriceLimit};
+        dispatch(filterByPrice(payload));
+    }
 
     return(
         <div className='side-nav'>
@@ -39,7 +67,11 @@ const SideNav = ()=>{
 
                                                     accordionData.map((subCategory)=>{
                                                         if(accordionCategory.id === subCategory.parent_category_id){
-                                                            return <li className='sub-items'> <a href='#'>{subCategory.category}</a> </li>
+                                                            return (
+                                                                <li className='sub-items'> 
+                                                                    <a href='#' onClick={()=>filterData(subCategory)}>{subCategory.category}</a>
+                                                                </li>
+                                                            )
                                                         }
                                                     })
                                                 }
@@ -52,6 +84,23 @@ const SideNav = ()=>{
                         
                     })
                 }
+            </div>
+
+            <div className='price-filter-container'>
+                <div className='section-title'>
+                    <h3>Filter By Price</h3>
+                </div>
+                <div>
+                    <label>Min : {minPriceLimit} </label>
+                    <input className='form-range' type='range' min={10} max={130} step={10} onChange={(e)=>serPriceLimit(e, "min")}/>
+                </div>
+
+                <div>
+                    <label>Max : {maxPriceLimit} </label>
+                    <input className='form-range' type='range' min={10} max={130} step={10} onChange={(e)=>serPriceLimit(e, "max")}/>
+                </div>
+
+                <button className='btn btn-outline-dark my-5' onClick={applyPriceFilter}> Apply Filter </button>
             </div>
         </div>
     )

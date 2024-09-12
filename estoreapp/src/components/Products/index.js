@@ -2,6 +2,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import './_products.scss';
 import { useEffect } from 'react';
 import { getProducts } from '../../Redux/Products/productAction';
+import { addCartItem } from '../../Redux/Cart/cartSlice';
+import { Link } from 'react-router-dom';
 
 const Products =()=>{
     const productData = useSelector(state => state.pr.products);
@@ -13,6 +15,11 @@ const Products =()=>{
         dispatch(getProducts());
 
     },[dispatch]);
+
+    const addToCart = (itemData)=>{
+        const payload = {...itemData,quantity:1};
+        dispatch(addCartItem(payload));
+    }
 
     console.log(cart);
 
@@ -26,7 +33,7 @@ const Products =()=>{
                             <img src={require('../../assets/images/shop/'+product.product_img)} alt=''/>
                         </div>
                         <div className='product-info'>
-                            <h5><a href='#'>{product.product_name}</a></h5>
+                            <h5><Link to="/productDetails" state={product}>{product.product_name}</Link></h5>
                             <p className='product-price'>${product.price}</p>
                             <div className='product-rating'>
                                 <i className='fa fa-star'/>
@@ -37,7 +44,7 @@ const Products =()=>{
                             </div>
                         </div>
 
-                        <div className='my-3' >
+                        <div className='my-3' onClick={()=>addToCart(product)}>
                             <div className='cart-button'>
                                 <div className='cart-icon-container'>
                                     <i className='fa fa-shopping-cart mx-4'/>
