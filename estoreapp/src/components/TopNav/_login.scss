@@ -1,0 +1,109 @@
+.login-content{
+    text-align: center;
+}
+
+h2{
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    color: #333;
+    text-align: center;
+}
+
+p{
+    color: #666;
+    font-size: 14px;
+    bottom: 2px;
+}
+
+.login-form input{
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    background-color: green;
+    margin-bottom: 10px;
+    border: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.remember-forgot{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+.remember-forgot input[type="checkbox"]{
+    margin-right: 5px;
+    transform: scale(1.2);
+}
+
+.remember-forgot a {
+    color: blue;
+    text-align: right;
+    font-size: 17px;
+}
+
+.divider{
+    text-align: center;
+    margin: 20px 0;
+    position: relative;
+}
+
+.divider:before, 
+.divider:after{
+    content: "";
+    position: absolute;
+    width: 45%;
+    height: 1px;
+    top: 50%;
+    background-color: #ddd;
+}
+
+.divider:before{
+    left: 0;
+}
+
+.divider:after{
+    right: 0;
+}
+
+.google-login-btn{
+    width: 100%;
+    padding: 10px;
+    background-color: white;
+    border: 2px solid #ddd;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+}
+
+
+.google-login-btn img {
+    margin-right: 8px;
+
+}
+
+.para p{
+    margin-top: 10px;
+    text-align: center;
+}
+
+.para button{
+    border-radius: 10px;
+    font-size: 1em;
+    background-color: rgb(238,238,243);
+}
